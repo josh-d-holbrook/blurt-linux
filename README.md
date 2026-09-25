@@ -63,9 +63,9 @@ keyboard or Right Command on a Mac-layout keyboard. Right Alt/Option, Right
 Control, and several function keys are available in Settings. Some keyboards
 require **Fn** to send an actual function key instead of a media command.
 
-The default microphone setting prefers a connected Logitech Brio and otherwise
-uses the system default. You can choose a fixed device or the system default
-instead. **Check microphone** tests input locally without an API request.
+The microphone uses your system default. You can choose a specific input device
+in Settings instead. **Check microphone** tests input locally without an API
+request.
 
 - **Esc during recording:** pause and retain audio for Retry in History.
 - **Esc during transcription:** suppress paste; the response is still saved.

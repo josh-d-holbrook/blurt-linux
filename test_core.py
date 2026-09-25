@@ -4,7 +4,7 @@ import urllib.error
 from email.parser import BytesParser
 from email.policy import default
 from io import BytesIO
-from core import DictationError, ENDPOINT, KeyGesture, ModifierGesture, MAX_BYTES, choose_brio, make_config, transcribe
+from core import DictationError, ENDPOINT, KeyGesture, ModifierGesture, MAX_BYTES, make_config, transcribe
 
 
 class Reply(BytesIO):
@@ -46,13 +46,6 @@ class DictationTests(unittest.TestCase):
         self.assertIsNone(g.update(False, False, 2.1, "idle"))
         self.assertIsNone(g.update(True, False, 3, "transcribing"))
         self.assertIsNone(g.update(False, False, 3.1, "idle"))
-
-    def test_brio_preference_and_unplug_fallback(self):
-        sources = [{"name": "built-in", "description": "Internal Microphone"},
-                   {"name": "usb-mic", "description": "Logitech BRIO Analog Stereo"}]
-        self.assertEqual(choose_brio(sources), "usb-mic")
-        self.assertEqual(choose_brio(sources[:1]), "")
-        self.assertEqual(choose_brio([{"name": "brio.monitor"}]), "")
 
     def test_exact_endpoint_auth_pcm_and_config_first(self):
         pcm = bytes(range(256)) * 40

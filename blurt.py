@@ -30,7 +30,7 @@ CONFIG_FILE = CONFIG_DIR / "settings.json"
 SCHEMA = Secret.Schema.new(APP_ID, Secret.SchemaFlags.NONE,
                           {"service": Secret.SchemaAttributeType.STRING})
 ATTRS = {"service": "assemblyai-dictation"}
-DEFAULTS = dict(hotkey="Super_R", source="prefer-brio", polished=True, auto_paste=True,
+DEFAULTS = dict(hotkey="Super_R", source="", polished=True, auto_paste=True,
                 restore_clipboard=True, keyterms="", instruction="", language="en")
 KEY_LABELS = {"Super_R": "Right Super (Command / Windows)", "Alt_R": "Right Alt (Option)", "Control_R": "Right Control",
               "F8": "F8 (may require Fn)", "F9": "F9", "F10": "F10", "F12": "F12",
@@ -299,7 +299,6 @@ class Blurt(Gtk.Application):
             self.key_combo.append(name, label)
         self.key_combo.set_active_id(self.settings["hotkey"])
         self.mic_combo = field("Microphone", Gtk.ComboBoxText())
-        self.mic_combo.append("prefer-brio", "Brio when connected · otherwise system default")
         self.mic_combo.append("", "System default")
         try:
             sources = json.loads(subprocess.check_output(["pactl", "--format=json", "list", "sources"], timeout=3))

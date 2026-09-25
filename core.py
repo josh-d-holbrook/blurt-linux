@@ -19,16 +19,6 @@ MAX_SECONDS = 119
 MAX_BYTES = RATE * 2 * MAX_SECONDS
 
 
-def choose_brio(sources):
-    for source in sources:
-        if not source.get("name", "").endswith(".monitor") and "brio" in (
-            source.get("name", "") + " " + source.get("description", "") + " " +
-            json.dumps(source.get("properties", {}))
-        ).lower():
-            return source["name"]
-    return ""
-
-
 class DictationError(Exception):
     pass
 
@@ -225,13 +215,6 @@ class Recorder:
         self.peak = 0.0
 
     def start(self):
-        if self.source == "prefer-brio":
-            try:
-                sources = json.loads(subprocess.check_output(
-                    ["pactl", "--format=json", "list", "sources"], timeout=3))
-                self.source = choose_brio(sources)
-            except (OSError, ValueError, subprocess.SubprocessError):
-                self.source = ""
         cmd = ["parec", "--raw", "--format=s16le", "--rate=16000", "--channels=1",
                "--latency-msec=40", "--client-name=Blurt Linux"]
         if self.source:
