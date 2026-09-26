@@ -1,0 +1,20 @@
+name: Tests
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container: debian:13
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Debian dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends python3 python3-gi python3-cairo python3-gi-cairo python3-xlib gir1.2-gtk-3.0 gir1.2-ayatanaappindicator3-0.1 gir1.2-secret-1 fonts-dejavu-core
+      - name: Run offline tests
+        run: /usr/bin/python3 -m unittest discover -v
+      - name: Check syntax
+        run: |
+          /usr/bin/python3 -m py_compile blurt.py core.py recovery.py appearance.py
+          sh -n install.sh
